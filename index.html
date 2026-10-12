@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f6f7f6">
+  <meta name="description" content="A clean habit tracker for daily check-ins, progress and mood, inspired by the original spreadsheet layout.">
+  <title>Habit Tracker</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <header class="app-topbar">
+    <div class="app-topbar-inner">
+      <div class="brand">
+        <span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" fill="#16a765"/><path d="M8 7v10M13 7v10M7 11h11M7 15h11" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        <span>Habit Tracker</span>
+        <span class="brand-tag">Daily habits</span>
+      </div>
+      <div class="top-actions">
+        <label class="year-field" for="year-select">Year <select id="year-select" aria-label="Choose year"></select></label>
+        <button class="action ghost" id="habits-button" type="button" title="Add, rename or remove recurring habits">Manage habits</button>
+        <button class="action ghost" id="export-button" type="button" title="Export your data">Export</button>
+        <button class="action ghost" id="import-button" type="button" title="Import a saved backup">Import</button>
+      </div>
+    </div>
+  </header>
+  <div class="tab-nav-wrap"><nav class="tab-nav" id="tabs" aria-label="Tracker pages"></nav></div>
+  <main id="main" class="main"></main>
+  <footer class="site-footer"><span>Habit Tracker</span><span>Saved in this browser · Works on GitHub Pages</span></footer>
+  <input id="import-file" type="file" accept="application/json,.json" hidden>
+  <dialog id="habit-dialog" class="dialog">
+    <form id="habits-form" method="dialog">
+      <div class="dialog-head"><h2>Manage your habits</h2><button class="close-dialog" type="button" data-close="habit-dialog" aria-label="Close">×</button></div>
+      <p class="dialog-note">Rename habits freely, or add new ones. Deleting a habit also deletes its saved check-ins. The original Example stays unchanged.</p>
+      <div id="habit-fields" class="habit-fields"></div><button class="add-habit-draft" type="button" id="add-habit-button">+ Add another habit</button>
+      <div class="dialog-actions"><button class="action ghost" value="cancel" type="button" data-close="habit-dialog">Cancel</button><button class="action primary" id="save-habits" type="submit">Save changes</button></div>
+    </form>
+  </dialog>
+  <dialog id="task-dialog" class="dialog small-dialog"><form id="task-edit-form" method="dialog"><div class="dialog-head"><h2>Edit daily task</h2><button class="close-dialog" type="button" data-close="task-dialog" aria-label="Close">×</button></div><p class="dialog-note">Change the task name. The completion status will remain saved.</p><input type="hidden" id="task-edit-id"><input type="hidden" id="task-edit-date"><label class="task-edit-label" for="task-edit-input">Task name</label><input id="task-edit-input" class="task-edit-input" type="text" maxlength="160" required><div class="dialog-actions"><button type="button" class="action ghost" data-close="task-dialog">Cancel</button><button type="submit" class="action primary">Save task</button></div></form></dialog>
+  <dialog id="export-dialog" class="dialog small-dialog">
+    <div class="dialog-head"><h2>Export your progress</h2><button class="close-dialog" type="button" data-close="export-dialog" aria-label="Close">×</button></div>
+    <p class="dialog-note">Your backup includes all years, habits, daily tasks, check-ins, mood and motivation. Nothing is uploaded to a server.</p>
+    <div class="dialog-actions"><button type="button" id="download-csv" class="action ghost">Download CSV</button><button type="button" id="download-json" class="action primary">Download backup (.json)</button></div>
+  </dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
